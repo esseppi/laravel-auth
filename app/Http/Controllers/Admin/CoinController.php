@@ -38,9 +38,10 @@ class CoinController extends Controller
     public function store(Request $request)
     {
         $this->validationRules = [
-            'name'              => 'required|unique:comics|min:1|max:1',
+            'name'              => 'required|min:1|max:128',
             'thumb'             => 'url|max:2000',
             'description'       => 'max:250',
+            'slug'              => 'required|unique:coins|max:250',
             'price'             => 'required|numeric',
             'amount'            => 'required|numeric',
         ];
@@ -48,7 +49,7 @@ class CoinController extends Controller
         $request->validate($this->validationRules);
         $newCoin = $request->all();
         $coin = Coin::create($newCoin);
-        return redirect()->route('coins.show', $coin->id);
+        return redirect()->route('admin.coins.show', $coin->id);
     }
 
     /**
@@ -72,7 +73,8 @@ class CoinController extends Controller
      */
     public function edit(Coin $coin)
     {
-        return view('admin.coins.edit');
+
+        return view('admin.coins.edit', compact('coin'));
     }
 
     /**
@@ -88,7 +90,7 @@ class CoinController extends Controller
 
         $coin->update($formData);
 
-        return redirect()->route('coins.admin.show', $coin->id);
+        return redirect()->route('admin.coins.show', $coin->id);
     }
 
     /**
@@ -100,6 +102,22 @@ class CoinController extends Controller
     public function destroy(Coin $coin)
     {
         $coin->delete();
-        return redirect()->route('comics.admin.index');
+        return redirect()->route('admin.coins.index');
+    }
+
+
+    public function search(Request $request)
+    {
+        $search_text = $request->query('query');
+        $coins = Coin::where('name', 'LIKE', '%' . $search_text . '%')->get();
+        return view('admin.coins.search', compact('coins'));
+    }
+
+    // GENERATORE SLUGGER
+    public function slugger(Request $request)
+    {
+        return response()->json([
+            'slug' => Coin::generateSlug($request->all()['generatorString'])
+        ]);
     }
 }

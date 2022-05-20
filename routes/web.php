@@ -28,5 +28,7 @@ Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
+        Route::post('/slugger', 'CoinController@slugger')->name('slugger');
+        Route::get('/search', 'CoinController@search')->name('home');
         Route::resource('/coins', 'CoinController');
     });

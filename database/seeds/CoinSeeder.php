@@ -17,7 +17,7 @@ class CoinSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             $slug = $faker->words(rand(2, 4), true);
             Coin::create([
-                'name'         => $faker->lastName(),
+                'name'          => $faker->lastName(),
                 'thumb'         => $faker->imageUrl(640, 480, 'animals', true),
                 'description'   => $faker->sentence(rand(0, 10)),
                 'price'         => $faker->numberBetween(0, 10000),

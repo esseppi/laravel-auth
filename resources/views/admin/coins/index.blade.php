@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 
 @section('content')
     <main class="my-3">
@@ -17,7 +17,8 @@
                                 <a href="{{ route('admin.coins.edit', $coin->id) }}" class="btn btn-secondary">Edit</a>
                                 {{-- trigger delete button --}}
                                 <button type="button" class="btn btn-danger deleteButton" data-bs-toggle="modal"
-                                    data-id="{{ $coin->id }}" data-bs-target="#staticBackdrop">
+                                    data-id="{{ $coin->id }}" data-base="{{ route('admin.coins.index') }}"
+                                    data-bs-target="#staticBackdrop">
                                     Delete
                                 </button>
 

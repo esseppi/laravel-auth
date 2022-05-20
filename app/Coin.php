@@ -13,12 +13,15 @@ class Coin extends Model
         "name",
         "description",
         "thumb",
+        "slug",
         "price",
         "amount"
     ];
-    static public function generateSlug($originalStr)
+
+    // GENERATORE SLUGGER
+    static public function generateSlug($generatorString)
     {
-        $baseSlug = Str::of($originalStr)->slug('-');
+        $baseSlug = Str::of($generatorString)->slug('-')->__toString();
         $slug = $baseSlug;
         $_i = 1;
         while (self::where('slug', $slug)->first()) {

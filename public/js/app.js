@@ -40102,6 +40102,9 @@ module.exports = function(module) {
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
+    Axios = _require["default"];
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -40115,7 +40118,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component("example-component", __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -40123,8 +40126,30 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  */
 
 var app = new Vue({
-  el: '#app'
+  el: "#app"
 });
+var button = document.querySelectorAll(".deleteButton");
+var form = document.querySelector("#deleteForm");
+button.forEach(function (button) {
+  button.addEventListener("click", function () {
+    form.action = this.dataset.base + "/" + this.dataset.id;
+  });
+  console.log(form.action);
+}); // GENERATORE SLUGGER
+
+var btnSlugger = document.querySelector("#btn-slugger");
+
+if (btnSlugger) {
+  btnSlugger.addEventListener("click", function () {
+    var eleSlug = document.querySelector("#slug");
+    var name = document.querySelector("#name").value;
+    Axios.post("/admin/slugger", {
+      generatorString: name
+    }).then(function (response) {
+      eleSlug.value = response.data.slug;
+    });
+  });
+}
 
 /***/ }),
 
